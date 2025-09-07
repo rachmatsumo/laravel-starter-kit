@@ -28,8 +28,8 @@ class ActionDropdown extends Component
 
     private function getPermission(string $action): string
     {
-        $prefix = strtolower(class_basename($this->model)); // contoh: User → user
-
+        $prefix = Str::kebab(class_basename($this->model)); // "CustomScript" -> "custom-script" 
+        
         return match($action) {
             'view'   => "$prefix.view",
             'edit'   => "$prefix.edit",
@@ -47,7 +47,7 @@ class ActionDropdown extends Component
         }
 
         $prefix = $this->model->route_prefix ?? Str::kebab(Str::plural(class_basename($this->model)));
-
+        
         try {
             return match($action) {
                 'view'   => route("$prefix.show", $this->model),
